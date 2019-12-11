@@ -13,18 +13,34 @@ public class UserDaoImpl implements UserDao {
   DataSource datasource;
   @Autowired
   JdbcTemplate jdbcTemplate;
-  public int register(User user) {
+  public int register(User user) 
+  {
     String sql = "insert into users values(?,?,?,?,?,?,?)";
+    createTable();
     return jdbcTemplate.update(sql, new Object[] { user.getUsername(), user.getPassword(), user.getFirstname(),
     user.getLastname(), user.getEmail(), user.getAddress(), user.getPhone() });
     }
-    public User validateUser(Login login) {
+    public User validateUser(Login login) 
+    {
     String sql = "select * from users where username='" + login.getUsername() + "' and password='" + login.getPassword()
     + "'";
     List<User> users = jdbcTemplate.query(sql, new UserMapper());
     return users.size() > 0 ? users.get(0) : null;
     }
+    public void createTable()  {
+        String sqlCreate = "CREATE TABLE IF NOT EXISTS Users" 
+                + "  (username  VARCHAR(255),"
+                + "   password  VARCHAR(255),"
+                + "   firstname VARCHAR(255),"
+                + "   lastname VARCHAR(255),"
+                + "   email     VARCHAR(255) primary key,"
+                + "   address   VARCHAR(255),"
+                + "   phone     integer)";
+
+        jdbcTemplate.execute(sqlCreate);
+    }
   }
+
   class UserMapper implements RowMapper<User> {
   public User mapRow(ResultSet rs, int arg1) throws SQLException {
     User user = new User();
