@@ -13,6 +13,10 @@
             <tr>
             </tr>
             <tr>
+            <td><a href="kids">Register for Kids</a>
+                </td>
+                <td><a href="adults">Register for Adults</a>
+            <tr>
             </tr>
             <tr>
                 <td><a href="home.jsp">Home</a>
